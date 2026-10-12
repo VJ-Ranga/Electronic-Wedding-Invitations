@@ -19,6 +19,19 @@
 
   /* ---------- painted flowers, drawn in SVG ---------- */
   var Flora = (function () {
+    // paint definitions travel inside every flower, so each one can be a self-contained picture
+    var DEFS = "<defs>" +
+      '<filter id="wc" x="-20%" y="-20%" width="140%" height="140%"><feTurbulence type="fractalNoise" baseFrequency=".035" numOctaves="3" seed="4" result="n"/>' +
+      '<feDisplacementMap in="SourceGraphic" in2="n" scale="6" xChannelSelector="R" yChannelSelector="G"/><feGaussianBlur stdDeviation=".3"/>' +
+      '<feDropShadow dx="0" dy="1.6" stdDeviation="1.6" flood-color="#463718" flood-opacity=".2"/></filter>' +
+      '<radialGradient id="g-cream" gradientUnits="userSpaceOnUse" cx="0" cy="0" r="48"><stop offset="0" stop-color="#B7A47B"/><stop offset=".3" stop-color="#E6DBC3"/><stop offset=".8" stop-color="#FFFFFF"/><stop offset="1" stop-color="#F8F3E8"/></radialGradient>' +
+      '<radialGradient id="g-rose" gradientUnits="userSpaceOnUse" cx="0" cy="0" r="48"><stop offset="0" stop-color="#D6B96E"/><stop offset=".4" stop-color="#F3E6BE"/><stop offset="1" stop-color="#FFFDF2"/></radialGradient>' +
+      '<radialGradient id="g-blue" gradientUnits="userSpaceOnUse" cx="0" cy="0" r="48"><stop offset="0" stop-color="#4E76B4"/><stop offset=".45" stop-color="#A4C1E7"/><stop offset="1" stop-color="#E8F1FC"/></radialGradient>' +
+      '<linearGradient id="g-beige" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#C6B58E"/><stop offset="1" stop-color="#F0E8D6"/></linearGradient>' +
+      '<linearGradient id="g-sage" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#5B7E5C"/><stop offset="1" stop-color="#B7C8A4"/></linearGradient>' +
+      '<linearGradient id="g-teal" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#2C5C89"/><stop offset="1" stop-color="#93B5D1"/></linearGradient>' +
+      '<linearGradient id="g-gold" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8A6C30"/><stop offset=".5" stop-color="#EBD59A"/><stop offset="1" stop-color="#A9853C"/></linearGradient>' +
+      "</defs>";
     var rng = function (seed) { return function () { seed = (seed * 16807) % 2147483647; return (seed - 1) / 2147483646; }; };
     var f = function (n) { return n.toFixed(1); };
     var petal = function (l, w) {
@@ -93,7 +106,8 @@
             '<ellipse cx="' + f(x) + '" cy="' + f(top) + '" rx="4.5" ry="10" fill="url(#g-gold)" transform="rotate(' + f(x * 0.5) + " " + f(x) + " " + f(top) + ')"/>';
         }
       }
-      return '<svg viewBox="-52 -52 104 104" aria-hidden="true"><g' + (painted ? ' filter="url(#wc)"' : "") + ">" + body + "</g></svg>";
+      return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="-60 -60 120 120">' + DEFS +
+        "<g" + (painted ? ' filter="url(#wc)"' : "") + ">" + body + "</g></svg>";
     };
     return { make: make, painted: function (type) { return !/^(line|gold)/.test(type); } };
   })();
@@ -110,8 +124,13 @@
       el.style.setProperty("--r", (row[4] || 0) + "deg");
       el.style.setProperty("--i", i);
       el.style.setProperty("--t", (5 + (i % 4)) + "s");
-      // Flora.make builds markup from fixed shape recipes; row[0] only picks a recipe
-      el.innerHTML = Flora.make(row[0], i + 1);
+      // each flower becomes one flat picture: the browser paints it once, then only moves it,
+      // which keeps the bloom and sway animations smooth on phones
+      var img = document.createElement("img");
+      img.alt = "";
+      img.decoding = "async";
+      img.src = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(Flora.make(row[0], i + 1));
+      el.appendChild(img);
       zone.appendChild(el);
     });
   };
@@ -154,7 +173,7 @@
     var img = document.createElement("img");
     img.src = p.src;
     img.alt = p.alt;
-    img.loading = "lazy";
+    img.decoding = "async";
     if (p.position) img.style.objectPosition = p.position;
     box.appendChild(img);
     fig.appendChild(box);
@@ -215,21 +234,33 @@
 
   /* ---------- opening sequence ---------- */
   var stage = $("#stage");
+  var env = $("#env");
   var openBtn = $("#openBtn");
-  var steps = [["s1", 0], ["s2", 350], ["s2b", 800], ["s3", 1500]];
+  // s1 seal lifts · s2 flap opens · s2b flap tucks behind · s3 envelope glides to its place on the page · s4 page takes over
+  var steps = [["s1", 0], ["s2", 550], ["s2b", 1180], ["s3", 1900], ["s4", 3050]];
   var timers = [];
   var finish = function () { stage.hidden = true; $("#invite").focus({ preventScroll: true }); };
   var reveal = function () { document.body.classList.remove("is-sealed"); document.body.classList.add("is-open"); };
+  // measure where the open envelope sits on the page and move the sealed one exactly there,
+  // so the hand-over from stage to page has no jump
+  var glide = function () {
+    var from = env.getBoundingClientRect();
+    var to = $(".oenv__body").getBoundingClientRect();
+    env.style.setProperty("--tx", (to.left - from.left) + "px");
+    env.style.setProperty("--ty", (to.top - from.top) + "px");
+    env.style.setProperty("--sx", (to.width / from.width).toFixed(4));
+  };
   var open = function () {
     if (stage.classList.contains("s1")) return;
     if (reduced) { stage.classList.add("s1"); reveal(); finish(); return; }
     steps.forEach(function (step) {
       timers.push(setTimeout(function () {
+        if (step[0] === "s3") glide();
         stage.classList.add(step[0]);
-        if (step[0] === "s3") reveal();
+        if (step[0] === "s4") reveal();
       }, step[1]));
     });
-    timers.push(setTimeout(finish, 2400));
+    timers.push(setTimeout(finish, 4300));
   };
   var reset = function () {
     timers.forEach(clearTimeout);
@@ -243,7 +274,7 @@
   };
   $("#invite").setAttribute("tabindex", "-1");
   openBtn.addEventListener("click", open);
-  $("#env").addEventListener("click", function (e) { if (e.target !== openBtn) open(); });
+  env.addEventListener("click", function (e) { if (e.target !== openBtn) open(); });
   $("#replayBtn").addEventListener("click", reset);
 
   /* ---------- scroll reveals ---------- */

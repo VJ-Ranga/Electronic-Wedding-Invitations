@@ -49,6 +49,7 @@
   document.title = W.couple.first + " & " + W.couple.second + " — Wedding Invitation";
 
   /* ---------- photographs ---------- */
+  $("#heroImg").decoding = "async";
   $("#heroImg").src = W.photos.hero;
   $("#venueImg").src = W.photos.venue;
   var portrait = $("#portraitPhoto");
@@ -148,7 +149,7 @@
   /* ---------- opening sequence ---------- */
   var stage = $("#stage");
   var openBtn = $("#openBtn");
-  var steps = [["s1", 0], ["s2", 350], ["s2b", 800], ["s3", 1250], ["s4", 2400], ["s5", 3150]];
+  var steps = [["s1", 0], ["s2", 550], ["s2b", 1180], ["s3", 1700], ["s4", 3300]];
   var timers = [];
 
   var finish = function () {
@@ -165,10 +166,10 @@
     steps.forEach(function (step) {
       timers.push(setTimeout(function () {
         stage.classList.add(step[0]);
-        if (step[0] === "s5") reveal();
+        if (step[0] === "s4") reveal();
       }, step[1]));
     });
-    timers.push(setTimeout(finish, 4000));
+    timers.push(setTimeout(finish, 4900));
   };
   var reset = function () {
     timers.forEach(clearTimeout);

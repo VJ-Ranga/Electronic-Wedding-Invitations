@@ -22,31 +22,13 @@
 </head>
 <body class="theme-taupe is-sealed">
 
-  <!-- paint definitions used by the flowers and the torn card edge -->
+  <!-- filter for the torn card edge -->
   <svg class="defs" aria-hidden="true" focusable="false">
     <defs>
-      <filter id="wc" x="-20%" y="-20%" width="140%" height="140%">
-        <feTurbulence type="fractalNoise" baseFrequency=".035" numOctaves="3" seed="4" result="n"/>
-        <feDisplacementMap in="SourceGraphic" in2="n" scale="6" xChannelSelector="R" yChannelSelector="G"/>
-        <feGaussianBlur stdDeviation=".3"/>
-      </filter>
       <filter id="torn" x="-6%" y="-6%" width="112%" height="112%">
         <feTurbulence type="fractalNoise" baseFrequency=".05" numOctaves="4" seed="8" result="n"/>
         <feDisplacementMap in="SourceGraphic" in2="n" scale="13" xChannelSelector="R" yChannelSelector="G"/>
       </filter>
-      <radialGradient id="g-cream" gradientUnits="userSpaceOnUse" cx="0" cy="0" r="48">
-        <stop offset="0" stop-color="#B7A47B"/><stop offset=".3" stop-color="#E6DBC3"/><stop offset=".8" stop-color="#FFFFFF"/><stop offset="1" stop-color="#F8F3E8"/>
-      </radialGradient>
-      <radialGradient id="g-rose" gradientUnits="userSpaceOnUse" cx="0" cy="0" r="48">
-        <stop offset="0" stop-color="#D6B96E"/><stop offset=".4" stop-color="#F3E6BE"/><stop offset="1" stop-color="#FFFDF2"/>
-      </radialGradient>
-      <radialGradient id="g-blue" gradientUnits="userSpaceOnUse" cx="0" cy="0" r="48">
-        <stop offset="0" stop-color="#4E76B4"/><stop offset=".45" stop-color="#A4C1E7"/><stop offset="1" stop-color="#E8F1FC"/>
-      </radialGradient>
-      <linearGradient id="g-beige" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#C6B58E"/><stop offset="1" stop-color="#F0E8D6"/></linearGradient>
-      <linearGradient id="g-sage" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#5B7E5C"/><stop offset="1" stop-color="#B7C8A4"/></linearGradient>
-      <linearGradient id="g-teal" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#2C5C89"/><stop offset="1" stop-color="#93B5D1"/></linearGradient>
-      <linearGradient id="g-gold" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8A6C30"/><stop offset=".5" stop-color="#EBD59A"/><stop offset="1" stop-color="#A9853C"/></linearGradient>
     </defs>
   </svg>
 

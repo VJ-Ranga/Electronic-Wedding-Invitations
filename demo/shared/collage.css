@@ -15,6 +15,7 @@
 
   --W: min(calc(100vw - 40px), 430px);   /* collage column width */
   --ease: cubic-bezier(.22, .8, .24, 1);
+  --ease-io: cubic-bezier(.65, 0, .35, 1);
   --gold: #B8944A;
   --gold-light: #E3CC93;
   --foil: linear-gradient(135deg, #8A6C30 0%, #D8BC7C 28%, #F6E7B8 50%, #C2A05E 72%, #8A6C30 100%);
@@ -101,27 +102,32 @@ a { color: inherit; }
   display: flex; flex-direction: column; align-items: center; justify-content: center; gap: var(--s-4);
   padding: var(--s-6); text-align: center;
   background: var(--paper-tex), var(--bg); background-blend-mode: multiply;
-  transition: opacity .8s ease;
+  transition: opacity 1.1s cubic-bezier(.4, 0, .2, 1);
+  will-change: opacity;
 }
-.stage__guest { color: var(--ink-soft); min-height: 1.2em; transition: opacity .4s; }
-.stage__script { font-family: var(--font-script); font-size: clamp(3.25rem, 14vw, 4.25rem); line-height: 1; color: var(--ink); margin-top: var(--s-8); transition: opacity .4s; }
-.stage__hint { color: var(--ink-soft); animation: breathe 2.6s ease-in-out infinite; transition: opacity .4s; }
+.stage__guest { color: var(--ink-soft); min-height: 1.2em; transition: opacity .7s ease; }
+.stage__script { font-family: var(--font-script); font-size: clamp(3.25rem, 14vw, 4.25rem); line-height: 1; color: var(--ink); margin-top: var(--s-8); transition: opacity .7s ease; }
+.stage__hint { color: var(--ink-soft); animation: breathe 2.6s ease-in-out infinite; transition: opacity .7s ease; }
 
-.cenv { position: relative; width: var(--W); aspect-ratio: 1 / .66; margin-top: var(--s-8); perspective: 1400px; animation: float 6s ease-in-out infinite; }
+.cenv {
+  position: relative; width: var(--W); aspect-ratio: 1 / .66; margin-top: var(--s-8); perspective: 1400px;
+  transform-origin: 0 0; animation: float 6s ease-in-out infinite;
+  transition: transform 1.25s var(--ease-io); will-change: transform;
+}
 .cenv__body, .cenv__flap { position: absolute; left: 0; right: 0; }
 .cenv__body {
   top: 0; bottom: 0; border-radius: 3px; overflow: hidden;
   background: linear-gradient(90deg, var(--env-dark), var(--env) 30%, var(--env) 70%, var(--env-dark));
   box-shadow: 0 1px 2px rgba(40, 30, 10, .3), 0 18px 30px rgba(40, 30, 10, .28);
 }
-.cenv__body::before { content: ""; position: absolute; inset: 0; background: var(--liner-pattern) center / 36px, var(--liner); opacity: 0; transition: opacity .2s .5s; }
+.cenv__body::before { content: ""; position: absolute; inset: 0; background: var(--liner-pattern) center / 36px, var(--liner); opacity: 0; transition: opacity .3s .55s; }
 .cenv__body::after { content: ""; position: absolute; inset: 0; background: linear-gradient(0deg, var(--env) 0%, var(--env-light) 100%); clip-path: polygon(0 100%, 50% 44%, 100% 100%); filter: drop-shadow(0 -2px 2px rgba(0, 0, 0, .18)); }
 .cenv__flap {
   top: 0; height: 60%; z-index: 2; transform-origin: 50% 0;
   background: linear-gradient(180deg, var(--env-light), var(--env));
   clip-path: polygon(0 0, 100% 0, 57% 91%, 53.5% 97%, 50% 98.6%, 46.5% 97%, 43% 91%);
   filter: drop-shadow(0 3px 3px rgba(0, 0, 0, .28));
-  transition: transform .9s var(--ease);
+  transition: transform 1.25s var(--ease-io); will-change: transform;
 }
 .wax {
   position: absolute; z-index: 5; left: 50%; top: 58%;
@@ -132,21 +138,26 @@ a { color: inherit; }
     radial-gradient(circle at 32% 26%, rgba(255, 248, 220, .95) 0%, rgba(255, 248, 220, 0) 26%),
     radial-gradient(circle at 50% 50%, #D6B56E 0%, #B8923F 52%, #8A6C30 78%, #6B5222 100%);
   box-shadow: inset 0 0 0 calc(var(--W) * .02) rgba(120, 90, 30, .28), inset 0 2px 3px rgba(255, 246, 214, .7), inset 0 -6px 10px rgba(70, 48, 10, .55), 0 5px 9px rgba(0, 0, 0, .4);
-  color: #6B5222; transition: transform .55s var(--ease), opacity .45s ease;
+  color: #6B5222; transition: transform .8s var(--ease), opacity .6s ease;
 }
 .wax::before { content: ""; position: absolute; inset: 15%; border-radius: 50%; box-shadow: inset 0 2px 3px rgba(70, 48, 10, .55), 0 1px 0 rgba(255, 246, 214, .55); }
 .wax::after { content: ""; position: absolute; inset: -9px; border-radius: 50%; border: 1px solid var(--gold); opacity: 0; animation: ring 2.4s ease-out infinite; }
 .wax span { position: relative; font-family: var(--font-serif); font-weight: 600; font-style: italic; font-size: calc(var(--W) * .058); text-shadow: 0 1px 0 rgba(255, 246, 214, .7), 0 -1px 0 rgba(60, 40, 8, .5); }
 .wax:hover { transform: translate(-50%, -50%) scale(1.05); }
 
-.stage.s1 .wax { transform: translate(-50%, 40%) rotate(24deg) scale(.7); opacity: 0; pointer-events: none; }
+.stage.s1 .wax { transform: translate(-50%, -62%) scale(1.22); opacity: 0; pointer-events: none; }
 .stage.s1 .wax::after, .stage.s1 .stage__hint { animation: none; }
 .stage.s1 .stage__guest, .stage.s1 .stage__script, .stage.s1 .stage__hint { opacity: 0; }
 .stage.s1 .cenv { animation-play-state: paused; }
 .stage.s2 .cenv__flap { transform: rotateX(180deg); }
 .stage.s2 .cenv__body::before { opacity: 1; }
-.stage.s2b .cenv__flap { z-index: 0; filter: none; }
-.stage.s3 { opacity: 0; pointer-events: none; }
+/* once past upright the flap shows its lined inside, matching the open envelope on the page */
+.stage.s2b .cenv__flap { z-index: 0; filter: none; background: var(--liner-pattern) center / 40px, var(--liner); box-shadow: inset 0 0 0 100vmax transparent; }
+/* envelope glides to where the open envelope sits on the page (offsets measured in collage.js) */
+.stage.s3 .cenv { transform: translate(var(--tx, 0), var(--ty, 0)) scale(var(--sx, 1)); }
+.stage .flora { transition: opacity .8s ease; }
+.stage.s3 .flora { opacity: 0; }
+.stage.s4 { opacity: 0; pointer-events: none; }
 
 /* ---------- 5. Collage ---------- */
 .page { min-height: 100vh; overflow-x: clip; }
@@ -245,11 +256,11 @@ a { color: inherit; }
 
 /* ---------- 6. Flora + photos ---------- */
 .zone { position: absolute; inset: 0; pointer-events: none; z-index: 3; }
-.flora { position: absolute; left: var(--x); top: var(--y); width: var(--w); aspect-ratio: 1; translate: -50% -50%; rotate: var(--r, 0deg); scale: 0; transition: scale 1.1s var(--ease) calc(.5s + var(--i, 0) * 80ms); }
-.flora svg { display: block; width: 100%; height: 100%; overflow: visible; filter: drop-shadow(0 2px 3px rgba(70, 55, 30, .2)); transform-origin: 50% 80%; }
-.flora--line svg { filter: none; }
-.stage .flora, body.is-open .flora { scale: 1; }
-body.is-open .page .flora svg { animation: sway var(--t, 6s) ease-in-out calc(var(--i, 0) * -.7s) infinite; }
+.flora { position: absolute; left: var(--x); top: var(--y); width: calc(var(--w) * 1.154); aspect-ratio: 1; translate: -50% -50%; rotate: var(--r, 0deg); scale: 0; opacity: 0; will-change: scale, opacity;
+  transition: scale 1.6s var(--ease) calc(1.1s + var(--i, 0) * 110ms), opacity 1s ease calc(1.1s + var(--i, 0) * 110ms); }
+.flora img { display: block; width: 100%; height: 100%; transform-origin: 50% 80%; will-change: transform; }
+.stage .flora, body.is-open .flora { scale: 1; opacity: 1; }
+body.is-open .page .flora img { animation: sway var(--t, 6s) ease-in-out calc(var(--i, 0) * -.7s) infinite; }
 
 .photos { position: relative; z-index: 4; }
 .photos figure { background: #fff; box-shadow: 0 1px 2px rgba(40, 30, 10, .25), 0 12px 22px rgba(40, 30, 10, .22); }
@@ -311,19 +322,19 @@ body.is-open .heartfloat { animation: heart 5.5s ease-out var(--dl, 0s) infinite
 .closing__note { margin-top: var(--s-6); font-family: var(--font-ui); font-size: .6875rem; color: var(--ink-soft); }
 
 /* ---------- 8. Motion ---------- */
-.oenv, .icard, .dcard, .photos { opacity: 0; transition: opacity 1s ease var(--d, 0s), transform 1.2s var(--ease) var(--d, 0s); }
-.oenv { --d: 0s; }
-.icard { --d: .15s; transform: translateY(-22%) scale(.9); }
-.dcard { --d: .7s; transform: translateY(40px); }
-.photos { --d: 1.1s; transform: translateY(50px); }
-body.is-open .oenv, body.is-open .icard, body.is-open .dcard, body.is-open .photos { opacity: 1; transform: none; }
+/* the open envelope is already in place when the stage hands over; everything else follows in turn */
+.icard, .dcard, .photos { opacity: 0; will-change: transform, opacity; transition: opacity 1.3s ease var(--d, 0s), transform 1.7s var(--ease) var(--d, 0s); }
+.icard { --d: .15s; transform: translateY(-24%) scale(.92); }
+.dcard { --d: .75s; transform: translateY(36px); }
+.photos { --d: 1.2s; transform: translateY(44px); }
+body.is-open .icard, body.is-open .dcard, body.is-open .photos { opacity: 1; transform: none; }
 .reveal { opacity: 0; transform: translateY(24px); transition: opacity .9s ease var(--d, 0s), transform .9s var(--ease) var(--d, 0s); }
 .reveal.is-in { opacity: 1; transform: none; }
 
-@keyframes float { 50% { transform: translateY(-7px); } }
+@keyframes float { 50% { translate: 0 -7px; } }
 @keyframes breathe { 50% { opacity: .45; } }
 @keyframes ring { 0% { transform: scale(.8); opacity: .8; } 100% { transform: scale(1.45); opacity: 0; } }
-@keyframes sway { 50% { transform: rotate(2.4deg); } }
+@keyframes sway { 50% { transform: rotate(2deg); } }
 @keyframes heart {
   0% { opacity: 0; transform: translateY(0) scale(.5); }
   20% { opacity: .9; }
@@ -355,7 +366,7 @@ body.is-open .oenv, body.is-open .icard, body.is-open .dcard, body.is-open .phot
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after { animation: none !important; transition: none !important; }
-  .oenv, .icard, .dcard, .photos, .reveal { opacity: 1; transform: none; }
-  .flora { scale: 1; }
+  .icard, .dcard, .photos, .reveal { opacity: 1; transform: none; }
+  .flora { scale: 1; opacity: 1; }
   .heartfloat { display: none; }
 }
