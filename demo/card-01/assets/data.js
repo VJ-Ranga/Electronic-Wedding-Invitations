@@ -19,14 +19,16 @@ window.WEDDING = {
     mapUrl: "https://www.google.com/maps/search/?api=1&query=Colombo+Sri+Lanka"
   },
 
-  // WAITING ON CLIENT: the couple's own photos. These are free stock placeholders (Pexels licence).
+  // WAITING ON CLIENT: the couple's own pre-shoot photo and venue photos.
+  // These are free stock placeholders (Pexels licence). An invitation goes out before the
+  // wedding, so never use wedding-day photos here: venue first, then the pre-shoot.
   photos: {
-    hero: "https://images.pexels.com/photos/19984918/pexels-photo-19984918/free-photo-of-newlyweds-in-traditional-clothing-hugging-in-garden.jpeg?auto=compress&cs=tinysrgb&w=1400",
-    portrait: "https://images.pexels.com/photos/19984917/pexels-photo-19984917/free-photo-of-first-look-bride-groom.jpeg?auto=compress&cs=tinysrgb&w=1800",
-    heroPosition: "38% 45%",        // which part of the hero photo stays in view on a phone
-    portraitSize: "250%",           // zoom of the round portrait
-    portraitPosition: "43% 64%",    // which part of the photo sits inside the ring
-    venue: "https://images.pexels.com/photos/30562607/pexels-photo-30562607/free-photo-of-outdoor-evening-event-with-elegant-decor-under-string-lights.jpeg?auto=compress&cs=tinysrgb&w=1000"
+    hero: "https://images.pexels.com/photos/30619805/pexels-photo-30619805.jpeg?auto=compress&cs=tinysrgb&w=1920",
+    heroPosition: "50% 50%",        // which part of the hero photo stays in view on a phone
+    portrait: "https://images.pexels.com/photos/10099992/pexels-photo-10099992.jpeg?auto=compress&cs=tinysrgb&w=1200",
+    portraitSize: "cover",          // zoom of the round portrait
+    portraitPosition: "50% 22%",    // which part of the photo sits inside the ring
+    venue: "https://images.pexels.com/photos/30562607/pexels-photo-30562607/free-photo-of-outdoor-evening-event-with-elegant-decor-under-string-lights.jpeg?auto=compress&cs=tinysrgb&w=1400"
   },
 
   // icon: toast | rings | sign | dine | cake | car

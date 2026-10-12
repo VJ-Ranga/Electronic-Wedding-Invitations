@@ -59,7 +59,7 @@
 
       <!-- Hero photo -->
       <header class="hero">
-        <img class="hero__img" id="heroImg" alt="The couple embracing in a garden" fetchpriority="high">
+        <img class="hero__img" id="heroImg" alt="The wedding venue lit up in the evening" fetchpriority="high">
         <div class="hero__shade" aria-hidden="true"></div>
         <div class="flecks" id="flecks" aria-hidden="true"></div>
         <div class="hero__text">
@@ -77,13 +77,14 @@
       <section class="section section--dark invitation" id="invitation">
         <p class="invitation__guest reveal" id="heroGuest" hidden></p>
 
+        <div class="invitation__grid">
         <div class="portrait reveal">
           <svg class="portrait__ring" viewBox="0 0 300 300" aria-hidden="true">
             <circle class="ring ring--line" cx="150" cy="150" r="146"/>
             <circle class="ring ring--beads" cx="150" cy="150" r="138"/>
             <circle class="ring ring--line" cx="150" cy="150" r="129"/>
           </svg>
-          <div class="portrait__photo" id="portraitPhoto" role="img" aria-label="Portrait of the couple"></div>
+          <div class="portrait__photo" id="portraitPhoto" role="img" aria-label="The couple, from their pre-wedding shoot"></div>
           <div class="portrait__hearts" aria-hidden="true">
             <i class="fa-solid fa-heart heartfloat" style="--x:6%;--s:.8;--dl:0s"></i>
             <i class="fa-solid fa-heart heartfloat" style="--x:22%;--s:.55;--dl:1.6s"></i>
@@ -93,6 +94,7 @@
           </div>
         </div>
 
+        <div class="invitation__text">
         <p class="eyebrow reveal" data-bind="hosts"></p>
         <p class="lead reveal" data-bind="request"></p>
 
@@ -110,6 +112,8 @@
           <span data-bind="venueName"></span><br>
           <small data-bind="venueAddress"></small>
         </p>
+        </div>
+        </div>
       </section>
 
       <div class="lace lace--to-light" aria-hidden="true"></div>
