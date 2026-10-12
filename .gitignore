@@ -1,0 +1,7 @@
+# Only the finished cards are published. Everything else stays local.
+/*
+!/.gitignore
+!/index.html
+!/demo/
+/demo/*
+!/demo/card-01/
