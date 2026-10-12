@@ -16,17 +16,32 @@
     return node;
   };
 
+  // one section per kind, in this order
+  var GROUPS = [
+    ["Wedding", "Wedding invitations"],
+    ["Birthday wish", "Birthday wishes"],
+    ["Invitation", "Party and event invitations"]
+  ];
+  var rows = {};
+  GROUPS.forEach(function (group) {
+    var section = el("section", "group");
+    section.appendChild(el("h2", "group__title", group[1]));
+    rows[group[0]] = el("div", "row gx-4 gy-5 justify-content-center");
+    section.appendChild(rows[group[0]]);
+    board.appendChild(section);
+  });
+
   window.BOARD.forEach(function (card, i) {
     var col = el("div", "col-12 col-md-6 col-lg-4");
     var tile = el("article", "tile");
-    tile.style.setProperty("--d", (i * 0.12) + "s");
+    tile.style.setProperty("--d", ((i % 3) * 0.12) + "s");
 
     var stage = el("a", "tile__stage");
     stage.href = card.url;
     stage.target = "_blank";
     stage.rel = "noopener";
     stage.setAttribute("aria-label", "Open " + card.name);
-    stage.appendChild(el("span", "tile__no", card.no + " · " + card.kind));
+    stage.appendChild(el("span", "tile__no", card.no + " · " + (card.tag || card.kind)));
     stage.appendChild(img("tile__open", card.open, card.name + " invitation, opened"));
     var phone = el("span", "tile__phone");
     phone.appendChild(img("", card.sealed, card.name + " envelope, sealed"));
@@ -34,7 +49,7 @@
 
     var body = el("div", "tile__body");
     var head = el("div", "tile__head");
-    head.appendChild(el("h2", "tile__name", card.name));
+    head.appendChild(el("h3", "tile__name", card.name));
     var swatches = el("div", "tile__swatches");
     swatches.setAttribute("aria-hidden", "true");
     card.swatches.forEach(function (colour) {
@@ -70,7 +85,7 @@
     tile.appendChild(stage);
     tile.appendChild(body);
     col.appendChild(tile);
-    board.appendChild(col);
+    (rows[card.kind] || rows.Invitation).appendChild(col);
   });
 
   var tiles = Array.prototype.slice.call(document.querySelectorAll(".tile"));

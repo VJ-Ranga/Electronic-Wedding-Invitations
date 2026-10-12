@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#F6EFE4">
+  <title>You're Invited</title>
+  <meta name="description" content="Open your invitation.">
+  <meta property="og:title" content="You're Invited">
+  <meta property="og:description" content="Tap to open your invitation.">
+  <meta property="og:type" content="website">
+  <link rel="icon" href="data:,">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://images.pexels.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Mrs+Saint+Delafield&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
+  <link href="../shared/collage.css" rel="stylesheet">
+</head>
+<body class="theme-home is-sealed">
+
+  <!-- filter for the torn card edge -->
+  <svg class="defs" aria-hidden="true" focusable="false">
+    <defs>
+      <filter id="torn" x="-6%" y="-6%" width="112%" height="112%">
+        <feTurbulence type="fractalNoise" baseFrequency=".05" numOctaves="4" seed="8" result="n"/>
+        <feDisplacementMap in="SourceGraphic" in2="n" scale="13" xChannelSelector="R" yChannelSelector="G"/>
+      </filter>
+    </defs>
+  </svg>
+
+  <!-- ============ Opening stage: sealed envelope ============ -->
+  <div class="stage" id="stage">
+    <p class="stage__guest caps" id="stageGuest"></p>
+    <div class="cenv" id="env">
+      <div class="cenv__body"></div>
+      <div class="cenv__flap" aria-hidden="true"></div>
+      <button class="wax" id="openBtn" type="button" aria-label="Open the invitation"><span data-bind="initials"></span></button>
+      <div class="zone" id="zoneStage" aria-hidden="true"></div>
+    </div>
+    <p class="stage__script">You are invited!</p>
+    <p class="stage__hint caps">Tap the seal to open</p>
+  </div>
+
+  <!-- ============ Invitation ============ -->
+  <main class="page" id="invite">
+
+    <section class="collage">
+      <div class="col cola">
+        <div class="oenv" aria-hidden="true">
+          <div class="oenv__flap"></div>
+          <div class="oenv__body"></div>
+        </div>
+        <article class="icard">
+          <div class="icard__paper" aria-hidden="true"></div>
+          <div class="icard__inner">
+            <div class="icard__mono" aria-hidden="true"><b data-bind="initialA"></b><b data-bind="initialB"></b></div>
+            <h1 class="icard__names">
+              <span data-bind="first"></span>
+              <span class="icard__and" data-bind="and"></span>
+              <span data-bind="second"></span>
+            </h1>
+            <p class="icard__hosts" data-bind="hosts"></p>
+            <p class="icard__request" data-bind="request"></p>
+          </div>
+        </article>
+        <div class="zone" id="zoneA" aria-hidden="true"></div>
+      </div>
+
+      <div class="col colb">
+        <article class="dcard">
+          <svg class="dcard__arc" viewBox="0 0 190 52" aria-hidden="true">
+            <path id="arcPath" d="M22 50A86 86 0 0 1 168 50" fill="none"/>
+            <text><textPath href="#arcPath" startOffset="50%" text-anchor="middle" data-bind="weekday"></textPath></text>
+          </svg>
+          <p class="visually-hidden" data-bind="weekday"></p>
+          <p class="dcard__date">
+            <span class="dcard__month" data-bind="month"></span>
+            <span class="dcard__day" data-bind="day"></span>
+            <span class="dcard__dayord" data-bind="dayOrd"></span>
+            <span class="dcard__month-script" data-bind="monthLong"></span>
+            <span class="dcard__year" data-bind="year"></span>
+          </p>
+          <p class="dcard__time caps" data-bind="startTime"></p>
+          <p class="dcard__venue caps"><span data-bind="venueName"></span><br><span data-bind="venueAddress"></span></p>
+          <p class="dcard__note caps" data-bind="note"></p>
+          <div class="dcard__cord" aria-hidden="true"><i></i><i></i><i></i><b></b></div>
+        </article>
+        <div class="photos" id="photos"></div>
+        <div class="hearts" aria-hidden="true">
+          <i class="fa-solid fa-heart heartfloat" style="--x:10%;--s:.8;--dl:1s"></i>
+          <i class="fa-solid fa-heart heartfloat" style="--x:48%;--s:.6;--dl:2.6s"></i>
+          <i class="fa-solid fa-heart heartfloat" style="--x:86%;--s:.9;--dl:4s"></i>
+        </div>
+        <div class="zone" id="zoneB" aria-hidden="true"></div>
+      </div>
+    </section>
+
+    <section class="sec" id="countdown" aria-labelledby="cdTitle">
+      <h2 class="title reveal" id="cdTitle">Counting the days</h2>
+      <div class="countdown reveal" role="timer" aria-live="off">
+        <div class="countdown__cell"><span class="countdown__num" data-cd="days">0</span><span class="countdown__label">Days</span></div>
+        <div class="countdown__cell"><span class="countdown__num" data-cd="hours">0</span><span class="countdown__label">Hours</span></div>
+        <div class="countdown__cell"><span class="countdown__num" data-cd="minutes">0</span><span class="countdown__label">Minutes</span></div>
+        <div class="countdown__cell"><span class="countdown__num" data-cd="seconds">0</span><span class="countdown__label">Seconds</span></div>
+      </div>
+    </section>
+
+    <section class="sec" id="schedule" aria-labelledby="schTitle">
+      <div class="ornament reveal" aria-hidden="true"></div>
+      <h2 class="title reveal" id="schTitle">The afternoon</h2>
+      <ol class="events" id="timeline"></ol>
+    </section>
+
+    <section class="sec" id="venue" aria-labelledby="venTitle">
+      <div class="ornament reveal" aria-hidden="true"></div>
+      <h2 class="title reveal" id="venTitle">The venue</h2>
+      <h3 class="venue__name reveal" data-bind="venueName"></h3>
+      <p class="venue__text reveal" data-bind="venueAddress"></p>
+      <p class="venue__meta reveal"><span class="caps">Dress code</span><br><span data-bind="dressCode"></span></p>
+      <div class="btnrow reveal">
+        <a class="btn-inv btn-inv--primary" id="mapBtn" target="_blank" rel="noopener">Get directions</a>
+        <a class="btn-inv btn-inv--outline" id="calBtn" target="_blank" rel="noopener">Add to calendar</a>
+      </div>
+    </section>
+
+    <section class="band" id="rsvp" aria-labelledby="rsvpTitle">
+      <div class="band__panel reveal">
+        <h2 class="title" id="rsvpTitle">Will you join us?</h2>
+        <p class="lead">Kindly reply by <span data-bind="rsvpBy"></span></p>
+        <div class="btnrow">
+          <a class="btn-inv btn-inv--primary" id="yesBtn" target="_blank" rel="noopener">Joyfully accept</a>
+          <a class="btn-inv btn-inv--outline" id="noBtn" target="_blank" rel="noopener">Regretfully decline</a>
+        </div>
+      </div>
+    </section>
+
+    <footer class="closing">
+      <p class="closing__script reveal" data-bind="closing"></p>
+      <p class="closing__mono reveal" data-bind="monogram"></p>
+      <button class="btn-inv btn-inv--ghost reveal" id="replayBtn" type="button">Replay opening</button>
+      <p class="closing__note">Sample invitation — names, date, venue and photographs are placeholders.</p>
+    </footer>
+  </main>
+
+  <script src="assets/data.js"></script>
+  <script src="../shared/collage.js"></script>
+</body>
+</html>

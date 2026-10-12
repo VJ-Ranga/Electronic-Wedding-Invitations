@@ -1,4 +1,5 @@
-/* Showcase board — one entry per card design. Add a card here and it appears on the board. */
+/* Showcase board — one entry per card design. Add a card here and it appears on the board.
+   kind groups the tiles (Wedding | Birthday wish | Invitation); tag is the small label on the tile. */
 window.BOARD = [
   {
     no: "01",
@@ -35,7 +36,8 @@ window.BOARD = [
   },
   {
     no: "04",
-    kind: "Birthday",
+    kind: "Invitation",
+    tag: "Birthday party",
     name: "Blush Birthday",
     mood: "Blush, plum and gold. Milestone birthdays, dinners, a grown-up celebration.",
     points: ["Blush envelope with balloons and confetti", "Name in script, age in gold foil", "Two polaroids"],
@@ -46,7 +48,8 @@ window.BOARD = [
   },
   {
     no: "05",
-    kind: "Party",
+    kind: "Invitation",
+    tag: "Cocktail night",
     name: "Midnight Cocktail",
     mood: "Midnight blue and gold. Cocktail nights, year-end parties, anything with a dance floor.",
     points: ["Midnight envelope with disco ball", "Gold foil title on a dark card", "Party film strip"],
@@ -54,5 +57,65 @@ window.BOARD = [
     url: "demo/card-05/",
     open: "board/img/card-05-open.jpg",
     sealed: "board/img/card-05-sealed.jpg"
+  },
+  {
+    no: "06",
+    kind: "Birthday wish",
+    tag: "For a child",
+    name: "Rainbow Wish",
+    mood: "Sunny pastels, a rainbow and smiling clouds. A wish card for little ones.",
+    points: ["Gift box opens, lid flies off", "Name and age in big friendly letters", "Tap for a confetti shower"],
+    swatches: ["#FFC94D", "#6FB7E9", "#F2708A"],
+    url: "demo/card-06/",
+    open: "board/img/card-06-open.jpg",
+    sealed: "board/img/card-06-sealed.jpg"
+  },
+  {
+    no: "07",
+    kind: "Birthday wish",
+    tag: "For a boy",
+    name: "Level Up",
+    mood: "Comic-book panels, bolts and bursts. A loud wish for a teenage boy.",
+    points: ["Comic envelope with burst and bolts", "Lettering like a manga cover", "Power-up confetti button"],
+    swatches: ["#101A3A", "#FFD93B", "#19C3E6"],
+    url: "demo/card-07/",
+    open: "board/img/card-07-open.jpg",
+    sealed: "board/img/card-07-sealed.jpg"
+  },
+  {
+    no: "08",
+    kind: "Birthday wish",
+    tag: "For her",
+    name: "Sweet Bloom",
+    mood: "Pink, lilac, hearts and butterflies. A wish for a girlfriend, sister or best friend.",
+    points: ["Pink gift box with a lilac bow", "Script lettering and a personal note", "Send-hearts button"],
+    swatches: ["#F7A9C6", "#A97FDD", "#D9578F"],
+    url: "demo/card-08/",
+    open: "board/img/card-08-open.jpg",
+    sealed: "board/img/card-08-sealed.jpg"
+  },
+  {
+    no: "09",
+    kind: "Invitation",
+    tag: "Housewarming",
+    name: "Open House",
+    mood: "Sage, terracotta and cream. Housewarmings and events at home.",
+    points: ["Double doors swing open", "Arched card with greenery", "Two polaroids of the new place"],
+    swatches: ["#5F7F6A", "#B5553C", "#F6EFE4"],
+    url: "demo/card-09/",
+    open: "board/img/card-09-open.jpg",
+    sealed: "board/img/card-09-sealed.jpg"
+  },
+  {
+    no: "10",
+    kind: "Invitation",
+    tag: "Meetup",
+    name: "Coffee + Cameras",
+    mood: "Cobalt, orange and black. Meetups, workshops and community mornings.",
+    points: ["Cobalt envelope with chat bubbles", "Bold poster-style card", "Agenda and one-tap reply"],
+    swatches: ["#2F54EB", "#FF7A3D", "#17171B"],
+    url: "demo/card-10/",
+    open: "board/img/card-10-open.jpg",
+    sealed: "board/img/card-10-sealed.jpg"
   }
 ];
