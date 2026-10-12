@@ -26,7 +26,7 @@
     stage.target = "_blank";
     stage.rel = "noopener";
     stage.setAttribute("aria-label", "Open " + card.name);
-    stage.appendChild(el("span", "tile__no", card.no));
+    stage.appendChild(el("span", "tile__no", card.no + " · " + card.kind));
     stage.appendChild(img("tile__open", card.open, card.name + " invitation, opened"));
     var phone = el("span", "tile__phone");
     phone.appendChild(img("", card.sealed, card.name + " envelope, sealed"));

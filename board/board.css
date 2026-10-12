@@ -41,7 +41,7 @@ body { background: var(--paper); color: var(--ink); font-family: var(--font-ui);
   transition: transform .8s var(--ease);
 }
 .tile__phone img { display: block; width: 100%; height: 100%; object-fit: cover; border-radius: 17px; }
-.tile__no { position: absolute; left: 16px; top: 12px; font-family: var(--font-serif); font-size: 1.125rem; letter-spacing: .12em; color: var(--ink-soft); }
+.tile__no { position: absolute; left: 16px; top: 12px; font-family: var(--font-serif); font-size: 1.125rem; letter-spacing: .12em; color: var(--ink-soft); text-transform: uppercase; }
 .tile__stage:hover .tile__open, .tile__stage:focus-visible .tile__open { transform: translateY(-10px); }
 .tile__stage:hover .tile__phone, .tile__stage:focus-visible .tile__phone { transform: translateY(-18px) rotate(-3deg); }
 

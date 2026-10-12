@@ -59,6 +59,46 @@
   --btn: #3F6288;
 }
 
+.theme-blush {
+  --bg: #FBF3EE;
+  --band: #F1D8D2;
+  --env: #D9A69E;
+  --env-dark: #C9928A;
+  --env-light: #E4B8B0;
+  --liner: #FBF1EA;
+  --liner-pattern: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='30' height='30'%3E%3Cg fill='%23C9A24B'%3E%3Ccircle cx='15' cy='15' r='1.6' fill-opacity='.75'/%3E%3Ccircle cx='0' cy='0' r='1.1' fill-opacity='.55'/%3E%3Ccircle cx='30' cy='0' r='1.1' fill-opacity='.55'/%3E%3Ccircle cx='0' cy='30' r='1.1' fill-opacity='.55'/%3E%3Ccircle cx='30' cy='30' r='1.1' fill-opacity='.55'/%3E%3C/g%3E%3C/svg%3E");
+  --card: #FFFDFB;
+  --dcard: #6B2D3E;
+  --dcard-ink: #FAEDE7;
+  --dcard-accent: #E3C98A;
+  --ink: #4A2C33;
+  --ink-soft: #8A6A6F;
+  --accent: #B08B3E;
+  --btn: #6B2D3E;
+}
+
+.theme-night {
+  --bg: #0E0F1C;
+  --band: #15162C;
+  --env: #2C2E60;
+  --env-dark: #222450;
+  --env-light: #383A78;
+  --liner: #12132A;
+  --liner-pattern: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='44' height='44'%3E%3Cg fill='%23E3C98A'%3E%3Cpath d='M22 12q1 9 10 10q-9 1-10 10q-1-9-10-10q9-1 10-10z' fill-opacity='.85'/%3E%3Ccircle cx='0' cy='0' r='1.4' fill-opacity='.6'/%3E%3Ccircle cx='44' cy='0' r='1.4' fill-opacity='.6'/%3E%3Ccircle cx='0' cy='44' r='1.4' fill-opacity='.6'/%3E%3Ccircle cx='44' cy='44' r='1.4' fill-opacity='.6'/%3E%3C/g%3E%3C/svg%3E");
+  --card: #17183A;
+  --dcard: #D9BE80;
+  --dcard-ink: #1B1A2B;
+  --dcard-accent: #1B1A2B;
+  --ink: #F3EEE4;
+  --ink-soft: #A9A7C2;
+  --accent: #E3C98A;
+  --btn: #D9BE80;
+  --btn-ink: #14152B;
+  --btn-outline-bg: transparent;
+  --panel: #1A1B3C;
+  --shadow-paper: drop-shadow(0 1px 1px rgba(0, 0, 0, .5)) drop-shadow(0 12px 20px rgba(0, 0, 0, .5));
+}
+
 /* ---------- 2. Base ---------- */
 html { scroll-behavior: smooth; }
 body {
@@ -86,10 +126,10 @@ a { color: inherit; }
   letter-spacing: .22em; text-transform: uppercase; text-decoration: none; cursor: pointer;
   transition: background-color .25s, color .25s, transform .25s, box-shadow .25s;
 }
-.btn-inv--primary { background: var(--btn); color: #fff; }
-.btn-inv--primary:hover { color: #fff; transform: translateY(-1px); box-shadow: 0 8px 18px rgba(40, 30, 10, .22); filter: brightness(1.08); }
-.btn-inv--outline { background: rgba(255, 255, 255, .7); color: var(--btn); }
-.btn-inv--outline:hover { background: var(--btn); color: #fff; }
+.btn-inv--primary { background: var(--btn); color: var(--btn-ink, #fff); }
+.btn-inv--primary:hover { color: var(--btn-ink, #fff); transform: translateY(-1px); box-shadow: 0 8px 18px rgba(40, 30, 10, .22); filter: brightness(1.08); }
+.btn-inv--outline { background: var(--btn-outline-bg, rgba(255, 255, 255, .7)); color: var(--btn); }
+.btn-inv--outline:hover { background: var(--btn); color: var(--btn-ink, #fff); }
 .btn-inv--ghost { background: transparent; border-color: transparent; color: var(--ink-soft); min-width: 0; }
 .btn-inv--ghost:hover { border-color: var(--ink-soft); }
 .btn-inv:active { transform: scale(.985); box-shadow: none; }
@@ -193,6 +233,9 @@ a { color: inherit; }
 .dcard__arc { display: block; width: 190px; height: 52px; margin: 0 auto -6px; overflow: visible; }
 .dcard__arc text { font-family: var(--font-ui); font-size: 13px; letter-spacing: .34em; fill: var(--dcard-ink); }
 .dcard__date { display: flex; align-items: baseline; justify-content: center; gap: .5em; font-weight: 600; line-height: 1; color: var(--dcard-accent); }
+.dcard__date { font-size: 1.5rem; letter-spacing: .06em; }
+.dcard__day { font-size: 3.75rem; }
+.dcard__dayord, .dcard__month-script { display: none; }
 .dcard__time { margin-top: var(--s-4); }
 .dcard__venue { margin-top: var(--s-6); line-height: 1.9; }
 .dcard__note { margin-top: var(--s-6); }
@@ -214,10 +257,7 @@ a { color: inherit; }
 .theme-taupe .icard__hosts { order: 2; margin-top: var(--s-8); }
 .theme-taupe .icard__request { order: 3; }
 .theme-taupe .icard__hosts, .theme-taupe .icard__request { font-family: var(--font-ui); font-size: .8125rem; letter-spacing: .1em; text-transform: uppercase; line-height: 2; max-width: 20em; }
-.theme-taupe .dcard { width: 92%; margin-left: auto; margin-right: auto; padding-bottom: calc(var(--W) * .34); }
-.theme-taupe .dcard__date { font-size: 1.5rem; letter-spacing: .06em; }
-.theme-taupe .dcard__day { font-size: 3.75rem; }
-.theme-taupe .dcard__dayord, .theme-taupe .dcard__month-script { display: none; }
+.theme-taupe .dcard, .theme-blush .dcard { width: 92%; margin-left: auto; margin-right: auto; padding-bottom: calc(var(--W) * .34); }
 .dcard__cord { display: none; }
 .theme-taupe .dcard__cord { display: block; position: absolute; left: 0; right: 0; bottom: calc(var(--W) * .2); height: 60px; }
 .theme-taupe .dcard__cord i { position: absolute; left: 0; right: 0; top: 50%; height: 2px; background: linear-gradient(180deg, #E8D08E, #A07E36); box-shadow: 0 1px 1px rgba(0, 0, 0, .4); }
@@ -246,13 +286,47 @@ a { color: inherit; }
 .theme-blue .icard__hosts, .theme-blue .icard__request { font-style: italic; font-size: 1.1875rem; line-height: 1.4; max-width: 13em; }
 .theme-blue .icard__names span:not(.icard__and) { font-size: 1.625rem; font-weight: 500; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); line-height: 1.3; }
 .theme-blue .icard__and { font-family: var(--font-script); font-size: 2.25rem; color: var(--accent); margin: -2px 0; }
-.theme-blue .colb { display: grid; grid-template-columns: 1fr 40%; align-items: end; margin-top: -40px; }
-.theme-blue .dcard { margin-top: 0; padding: var(--s-12) var(--s-3) var(--s-12); outline: 1px solid rgba(255, 255, 255, .28); outline-offset: -9px; }
+.colb--film { display: grid; grid-template-columns: 1fr 40%; align-items: end; margin-top: -40px; }
+.colb--film .dcard { margin-top: 0; }
+.theme-blue .dcard { padding: var(--s-12) var(--s-3) var(--s-12); outline: 1px solid rgba(255, 255, 255, .28); outline-offset: -9px; }
 .theme-blue .dcard__date { flex-direction: column; align-items: center; gap: 0; font-weight: 500; letter-spacing: .16em; font-size: 1.5rem; }
 .theme-blue .dcard__month, .theme-blue .dcard__day { display: none; }
+.theme-blue .dcard__dayord, .theme-blue .dcard__month-script { display: block; }
 .theme-blue .dcard__month-script { font-family: var(--font-script); font-size: 3.25rem; letter-spacing: 0; font-weight: 400; line-height: .9; margin: var(--s-1) 0; }
 .theme-blue .dcard__dayord { text-transform: uppercase; }
 .theme-blue .dcard .caps { font-size: .75rem; letter-spacing: .12em; }
+
+/* ----- blush (birthday): framed card, script name, big numeral ----- */
+.theme-blush .icard__paper { outline: 1px solid var(--gold); outline-offset: -10px; }
+.theme-blush .icard__inner { padding: calc(var(--W) * .2) var(--s-6) var(--s-12); }
+.theme-blush .icard__hosts { order: 0; }
+.theme-blush .icard__names { order: 1; margin-top: var(--s-4); }
+.theme-blush .icard__request { order: 2; font-style: italic; line-height: 1.4; max-width: 15em; margin-top: var(--s-4); }
+.theme-blush .icard__hosts, .theme-blush .icard__and { font-family: var(--font-ui); font-size: .75rem; letter-spacing: .26em; text-transform: uppercase; color: var(--ink-soft); }
+.theme-blush .icard__names span:first-child { font-family: var(--font-script); font-size: clamp(4.5rem, 21vw, 5.75rem); line-height: .95; color: var(--dcard); }
+.theme-blush .icard__and { margin-top: var(--s-3); }
+.theme-blush .icard__names span:last-child {
+  font-size: clamp(6.5rem, 31vw, 8.5rem); font-weight: 500; line-height: .95; font-variant-numeric: lining-nums;
+  background: var(--foil); -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+
+/* ----- night (party): dark card, gold foil capitals, gold date card ----- */
+.theme-night .icard__paper { outline: 1px solid var(--gold); outline-offset: -10px; box-shadow: inset 0 0 70px rgba(124, 92, 224, .22); }
+.theme-night .icard__inner { padding: calc(var(--W) * .18) var(--s-4) var(--s-12); }
+.theme-night .icard__hosts { order: 0; font-family: var(--font-ui); font-size: .75rem; letter-spacing: .24em; text-transform: uppercase; color: var(--ink-soft); max-width: 18em; }
+.theme-night .icard__names { order: 1; margin: var(--s-6) 0 var(--s-4); }
+.theme-night .icard__names span:not(.icard__and) {
+  font-size: clamp(2rem, 9.6vw, 2.625rem); font-weight: 600; letter-spacing: .1em; text-transform: uppercase; line-height: 1.1;
+  background: var(--foil); -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.theme-night .icard__and { font-family: var(--font-script); font-size: 3.75rem; line-height: .7; color: var(--gold-light); margin: 6px 0 2px; }
+.theme-night .icard__request { order: 2; font-style: italic; line-height: 1.4; max-width: 14em; }
+.theme-night .dcard { padding: 72px var(--s-3) var(--s-12); }
+.theme-night .dcard__date { font-size: 1.125rem; }
+.theme-night .dcard__day { font-size: 3.25rem; }
+.theme-night .dcard .caps { font-size: .75rem; letter-spacing: .12em; }
+.theme-night .hearts { display: none; }
+.theme-night .cenv__body { box-shadow: 0 1px 2px rgba(0, 0, 0, .5), 0 18px 34px rgba(0, 0, 0, .6); }
 
 /* ---------- 6. Flora + photos ---------- */
 .zone { position: absolute; inset: 0; pointer-events: none; z-index: 3; }
@@ -313,7 +387,7 @@ body.is-open .heartfloat { animation: heart 5.5s ease-out var(--dl, 0s) infinite
 .venue__meta .caps { color: var(--ink-soft); }
 
 .band { position: relative; padding: var(--s-16) 24px; text-align: center; background: var(--liner-pattern) center / 44px, var(--band); }
-.band__panel { max-width: 520px; margin: 0 auto; padding: var(--s-12) var(--s-6); background: rgba(252, 251, 248, .94); box-shadow: 0 10px 26px rgba(40, 30, 10, .16); }
+.band__panel { max-width: 520px; margin: 0 auto; padding: var(--s-12) var(--s-6); background: var(--panel, rgba(252, 251, 248, .94)); box-shadow: 0 10px 26px rgba(40, 30, 10, .16); }
 .band .title { margin-bottom: var(--s-4); }
 
 .closing { padding: var(--s-16) 24px var(--s-24); display: flex; flex-direction: column; align-items: center; gap: var(--s-4); text-align: center; }
@@ -347,7 +421,7 @@ body.is-open .icard, body.is-open .dcard, body.is-open .photos { opacity: 1; tra
   body { font-size: 1.25rem; }
   .collage { flex-direction: row; justify-content: center; align-items: center; gap: 96px; padding: var(--s-24) var(--s-12) var(--s-16); }
   .dcard { margin-top: 0; }
-  .theme-blue .colb { margin-top: 0; }
+  .colb--film { margin-top: 0; }
   .title { font-size: 5.5rem; margin-bottom: var(--s-12); }
   .sec { padding: 112px var(--s-12); }
   .sec--tight { padding-top: 0; }

@@ -14,7 +14,9 @@
     sign: '<path d="M11 6h18l8 8v28H11z"/><path d="M29 6v8h8"/><path d="M17 23h14M17 29h14"/><path d="M17 36q3-4 5 0t5-1 4 1"/>',
     dine: '<circle cx="24" cy="25" r="10"/><circle cx="24" cy="25" r="6"/><path d="M7 9v9a3 3 0 0 0 6 0V9M10 9v32"/><path d="M41 41V9c-4 3-5 12-3 18h3"/>',
     cake: '<path d="M9 41h30"/><path d="M12 41V30h24v11"/><path d="M12 35q3 3 6 0t6 0 6 0 6 0"/><path d="M17 30v-8h14v8"/><path d="M24 22v-5"/><path d="M24 17c-2.5-2-2-5 0-7 2 2 2.5 5 0 7z"/>',
-    car: '<path d="M5 33v-7l5-2 4-9h18l5 9 6 2v7h-4"/><path d="M19 33h10"/><circle cx="14" cy="33" r="4.5"/><circle cx="34" cy="33" r="4.5"/><path d="M14 24h22M24 15v9"/>'
+    car: '<path d="M5 33v-7l5-2 4-9h18l5 9 6 2v7h-4"/><path d="M19 33h10"/><circle cx="14" cy="33" r="4.5"/><circle cx="34" cy="33" r="4.5"/><path d="M14 24h22M24 15v9"/>',
+    music: '<path d="M18 36V12l18-4v24"/><path d="M18 19l18-4"/><circle cx="13" cy="36" r="5"/><circle cx="31" cy="32" r="5"/>',
+    gift: '<rect x="8" y="20" width="32" height="22"/><rect x="6" y="13" width="36" height="7"/><path d="M24 13v29"/><path d="M24 13c-8-10-16-2-8 0zM24 13c8-10 16-2 8 0z"/>'
   };
 
   /* ---------- painted flowers, drawn in SVG ---------- */
@@ -24,6 +26,7 @@
       '<filter id="wc" x="-20%" y="-20%" width="140%" height="140%"><feTurbulence type="fractalNoise" baseFrequency=".035" numOctaves="3" seed="4" result="n"/>' +
       '<feDisplacementMap in="SourceGraphic" in2="n" scale="6" xChannelSelector="R" yChannelSelector="G"/><feGaussianBlur stdDeviation=".3"/>' +
       '<feDropShadow dx="0" dy="1.6" stdDeviation="1.6" flood-color="#463718" flood-opacity=".2"/></filter>' +
+      '<filter id="sh" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="2" stdDeviation="2" flood-color="#000" flood-opacity=".24"/></filter>' +
       '<radialGradient id="g-cream" gradientUnits="userSpaceOnUse" cx="0" cy="0" r="48"><stop offset="0" stop-color="#B7A47B"/><stop offset=".3" stop-color="#E6DBC3"/><stop offset=".8" stop-color="#FFFFFF"/><stop offset="1" stop-color="#F8F3E8"/></radialGradient>' +
       '<radialGradient id="g-rose" gradientUnits="userSpaceOnUse" cx="0" cy="0" r="48"><stop offset="0" stop-color="#D6B96E"/><stop offset=".4" stop-color="#F3E6BE"/><stop offset="1" stop-color="#FFFDF2"/></radialGradient>' +
       '<radialGradient id="g-blue" gradientUnits="userSpaceOnUse" cx="0" cy="0" r="48"><stop offset="0" stop-color="#4E76B4"/><stop offset=".45" stop-color="#A4C1E7"/><stop offset="1" stop-color="#E8F1FC"/></radialGradient>' +
@@ -70,10 +73,22 @@
     var rose = 'fill="url(#g-rose)" stroke="rgba(160,135,80,.34)" stroke-width=".5" fill-opacity=".96"';
     var blue = 'fill="url(#g-blue)" stroke="rgba(60,95,150,.34)" stroke-width=".5" fill-opacity=".94"';
     var line = 'fill="none" stroke="#B8944A" stroke-width=".9" stroke-linecap="round"';
+    // party pieces: [highlight, body, shade]
+    var BALLOON = {
+      gold: ["#F7E3A6", "#C9A24B", "#8A6C30"], champagne: ["#FFF3D1", "#E3C98A", "#A8853F"], cream: ["#FFFFFF", "#F1E6D2", "#CDBE9C"],
+      blush: ["#FBE1DC", "#E2A79E", "#B9766C"], plum: ["#C78A9A", "#7E3549", "#4E1B2B"],
+      violet: ["#B9A2F0", "#6B4BC2", "#3B2A6B"], pink: ["#F7A8C8", "#E24B8A", "#8E2356"], black: ["#6A6A75", "#22222B", "#0A0A10"]
+    };
+    var CONFETTI = { blush: ["#C9A24B", "#E2A79E", "#6B2D3E", "#E9D9B6"], party: ["#E3C98A", "#7C5CE0", "#E24B8A", "#3FD0A5"] };
+    var star = function (x, y, size) {
+      var k = size * 0.12, z = f(size), n = f(-size);
+      return '<path transform="translate(' + f(x) + " " + f(y) + ')" d="M0 ' + n + "Q" + f(k) + " " + f(-k) + " " + z + " 0Q" + f(k) + " " + f(k) + " 0 " + z +
+        "Q" + f(-k) + " " + f(k) + " " + n + " 0Q" + f(-k) + " " + f(-k) + " 0 " + n + 'Z" fill="url(#g-gold)"/>';
+    };
     var tones = { beige: ["url(#g-beige)", "#B9A67C", ".85"], sage: ["url(#g-sage)", "#6F8A62", ".9"], teal: ["url(#g-teal)", "#3E6E96", ".9"] };
 
     var make = function (type, seed) {
-      var r = rng(seed * 97 + 13), body = "", painted = true;
+      var r = rng(seed * 97 + 13), body = "", painted = true, fx = "wc", i;
       var parts = type.split("-"), kind = parts[0], tone = tones[parts[1]];
       if (kind === "peony") {
         body = ring(r, 7, 46, 22, 0, cream) + ring(r, 6, 36, 19, 26, cream) + ring(r, 5, 25, 15, 8, cream) + ring(r, 4, 14, 10, 40, cream) +
@@ -98,16 +113,53 @@
       } else if (kind === "linesprig") {
         painted = false;
         body = sprig(r, line, "#B8944A");
+      } else if (kind === "balloon") {
+        var c = BALLOON[parts[1]] || BALLOON.gold;
+        fx = "sh";
+        body = '<radialGradient id="b" cx="35%" cy="28%" r="75%"><stop offset="0" stop-color="' + c[0] + '"/><stop offset=".55" stop-color="' + c[1] + '"/><stop offset="1" stop-color="' + c[2] + '"/></radialGradient>' +
+          '<path d="M0 22Q9 34 -3 44T3 58" fill="none" stroke="' + c[2] + '" stroke-opacity=".75" stroke-width=".8"/>' +
+          '<ellipse cx="0" cy="-14" rx="27" ry="34" fill="url(#b)"/><path d="M-4 19.5h8l-4 6z" fill="' + c[2] + '"/>' +
+          '<ellipse cx="-10" cy="-30" rx="5" ry="10" fill="#fff" fill-opacity=".5" transform="rotate(28 -10 -30)"/>';
+      } else if (kind === "sparkle") {
+        painted = false;
+        body = star(0, 0, 40) + star(30, -32, 14) + star(-32, 28, 10);
+      } else if (kind === "confetti") {
+        painted = false;
+        var cols = CONFETTI[parts[1]] || CONFETTI.blush;
+        for (i = 0; i < 18; i++) {
+          var cx = (r() - 0.5) * 100, cy = (r() - 0.5) * 100, col = cols[i % cols.length];
+          body += i % 3 ? '<circle cx="' + f(cx) + '" cy="' + f(cy) + '" r="' + f(1.6 + r() * 2.4) + '" fill="' + col + '"/>'
+            : '<rect x="' + f(cx) + '" y="' + f(cy) + '" width="7" height="3" rx="1" fill="' + col + '" transform="rotate(' + f(r() * 180) + " " + f(cx) + " " + f(cy) + ')"/>';
+        }
+      } else if (kind === "discoball") {
+        fx = "sh";
+        var grid = "";
+        [8, 18, 27].forEach(function (rx) { grid += '<ellipse rx="' + rx + '" ry="34"/>'; });
+        [-24, -12, 0, 12, 24].forEach(function (y) { grid += '<path d="M-34 ' + y + "Q0 " + (y + 7) + " 34 " + y + '"/>'; });
+        var tiles = "";
+        for (i = 0; i < 16; i++) {
+          var a = r() * Math.PI * 2, d = Math.sqrt(r()) * 29;
+          tiles += '<rect x="' + f(Math.cos(a) * d - 3) + '" y="' + f(Math.sin(a) * d - 3) + '" width="6" height="6" fill="' + ["#fff", "#fff", "#F7E3A6", "#D7C8FF"][i % 4] + '" fill-opacity="' + f(0.25 + r() * 0.6) + '"/>';
+        }
+        body = '<path d="M0 -58V-34" stroke="#8D8FA0" stroke-width="1"/>' +
+          '<radialGradient id="d" cx="35%" cy="30%" r="80%"><stop offset="0" stop-color="#FFFFFF"/><stop offset=".4" stop-color="#C9CCD6"/><stop offset="1" stop-color="#555A6E"/></radialGradient>' +
+          '<clipPath id="dc"><circle r="34"/></clipPath><circle r="34" fill="url(#d)"/>' +
+          '<g clip-path="url(#dc)">' + tiles + '<g fill="none" stroke="#33364A" stroke-opacity=".55" stroke-width=".7">' + grid + "</g></g>" +
+          star(-24, -22, 12) + star(31, -36, 9) + star(28, 30, 7);
+      } else if (kind === "streamer") {
+        painted = false;
+        body = '<path d="M-46 -30C-20 -54 -26 -6 -4 -18S14 24 44 8" fill="none" stroke="url(#g-gold)" stroke-width="3" stroke-linecap="round"/>' +
+          '<path d="M-40 14C-22 -2 -14 34 4 22S26 44 42 34" fill="none" stroke="url(#g-gold)" stroke-width="1.6" stroke-linecap="round" stroke-opacity=".8"/>';
       } else if (kind === "goldbuds") {
         painted = false;
-        for (var i = 0; i < 4; i++) {
+        for (i = 0; i < 4; i++) {
           var x = -24 + i * 16, top = -40 + (i % 2) * 14 + r() * 8;
           body += '<path d="M0 48Q' + f(x * 0.4) + " 0 " + f(x) + " " + f(top + 10) + '" fill="none" stroke="#B8944A" stroke-width=".9"/>' +
             '<ellipse cx="' + f(x) + '" cy="' + f(top) + '" rx="4.5" ry="10" fill="url(#g-gold)" transform="rotate(' + f(x * 0.5) + " " + f(x) + " " + f(top) + ')"/>';
         }
       }
       return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="-60 -60 120 120">' + DEFS +
-        "<g" + (painted ? ' filter="url(#wc)"' : "") + ">" + body + "</g></svg>";
+        "<g" + (painted ? ' filter="url(#' + fx + ')"' : "") + ">" + body + "</g></svg>";
     };
     return { make: make, painted: function (type) { return !/^(line|gold)/.test(type); } };
   })();
@@ -148,7 +200,7 @@
   var bind = {
     first: W.couple.first, second: W.couple.second, monogram: W.couple.monogram,
     initialA: W.couple.first.charAt(0), initialB: W.couple.second.charAt(0),
-    initials: W.couple.first.charAt(0) + W.couple.second.charAt(0),
+    initials: W.seal || (W.couple.first.charAt(0) + W.couple.second.charAt(0)),
     hosts: W.hosts, request: W.request, and: W.and || "and",
     weekday: fmt({ weekday: "long" }).toUpperCase(),
     month: fmt({ month: "short" }).toUpperCase(), monthLong: fmt({ month: "long" }),
@@ -161,11 +213,12 @@
     var value = bind[el.getAttribute("data-bind")];
     if (value != null) el.textContent = value;
   });
-  document.title = W.couple.first + " & " + W.couple.second + " — Wedding Invitation";
+  document.title = W.pageTitle || (W.couple.first + " & " + W.couple.second + " — Wedding Invitation");
 
   /* ---------- photographs ---------- */
   var photos = $("#photos");
   photos.classList.add("photos--" + W.photoStyle);
+  if (W.photoStyle === "film") photos.parentNode.classList.add("colb--film");
   W.photos.forEach(function (p) {
     var fig = document.createElement("figure");
     var box = document.createElement("div");
@@ -209,13 +262,14 @@
   var stamp = function (time) { return W.date.replace(/-/g, "") + "T" + time.replace(":", "") + "00"; };
   $("#mapBtn").href = W.venue.mapUrl;
   $("#calBtn").href = "https://calendar.google.com/calendar/render?action=TEMPLATE" +
-    "&text=" + encodeURIComponent(W.couple.first + " & " + W.couple.second + " — Wedding") +
+    "&text=" + encodeURIComponent(W.calendarTitle || (W.couple.first + " & " + W.couple.second + " — Wedding")) +
     "&dates=" + stamp(W.start) + "/" + stamp(W.end) + "&ctz=Asia/Colombo" +
     "&location=" + encodeURIComponent(W.venue.name + ", " + W.venue.address);
   var wa = function (message) { return "https://wa.me/" + W.rsvp.whatsapp + "?text=" + encodeURIComponent(message); };
   var from = guest ? " — " + guest : "";
-  $("#yesBtn").href = wa("With joy, we accept your invitation to the wedding of " + W.couple.first + " & " + W.couple.second + "." + from);
-  $("#noBtn").href = wa("With regret, we are unable to attend the wedding of " + W.couple.first + " & " + W.couple.second + ". Wishing you both every happiness." + from);
+  var eventName = W.eventName || ("the wedding of " + W.couple.first + " & " + W.couple.second);
+  $("#yesBtn").href = wa("With joy, we accept your invitation to " + eventName + "." + from);
+  $("#noBtn").href = wa("With regret, we are unable to attend " + eventName + ". " + (W.declineWish || "Wishing you both every happiness.") + from);
 
   /* ---------- countdown ---------- */
   var cd = {};
